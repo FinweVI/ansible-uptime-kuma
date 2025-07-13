@@ -1,0 +1,19 @@
+{{ ansible_managed }}
+[Unit]
+Description=Uptime Kuma
+After=network-online.target
+
+[Service]
+Type=simple
+User={{ uptime_kuma_user }}
+Group={{ uptime_kuma_user }}
+PermissionsStartOnly=true
+WorkingDirectory={{ uptime_kuma_src }}
+EnvironmentFile={{ uptime_kuma_config_file }}
+ExecStart=/usr/bin/node server/server.js
+
+KillMode=process
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

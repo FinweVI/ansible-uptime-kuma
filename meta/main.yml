@@ -1,0 +1,16 @@
+---
+galaxy_info:
+  author: Finwë
+  description: Uptime Kuma
+  license: MIT
+  company: none
+  min_ansible_version: 2.18
+  platforms:
+  - name: Debian
+    versions:
+    - bookworm
+  - galaxy_tags:
+    - system
+    - monitoring
+    - uptime-kuma
+    - alerting
