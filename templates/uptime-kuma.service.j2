@@ -9,7 +9,9 @@ User={{ uptime_kuma_user }}
 Group={{ uptime_kuma_user }}
 PermissionsStartOnly=true
 WorkingDirectory={{ uptime_kuma_src }}
-EnvironmentFile={{ uptime_kuma_config_file }}
+{% for k, v in uptime_kuma_env_vars.items() -%}
+Environment="{{ k }}={{ v }}"
+{% endfor %}
 ExecStart=/usr/bin/node server/server.js
 
 KillMode=process

@@ -1,16 +1,17 @@
 ---
-- name: download uptime kuma source archive to local folder
+- name: Download uptime-kuma source archive to local folder
   become: false
-  get_url:
+  ansible.builtin.get_url:
     url: "https://github.com/louislam/uptime-kuma/archive/refs/tags/{{ uptime_kuma_version }}.tar.gz"
     dest: "/tmp/uptime_kuma_{{ uptime_kuma_version }}.tar.gz"
+    mode: "0644"
   register: _download_src_archive
   until: _download_src_archive is succeeded
   retries: 5
   delay: 2
   check_mode: false
 
-- name: unpack uptime kuma src archive
+- name: Unpack uptime-kuma src archive
   become: false
   ansible.builtin.unarchive:
     src: "/tmp/uptime_kuma_{{ uptime_kuma_version }}.tar.gz"
@@ -21,18 +22,19 @@
     remote_src: true
   check_mode: false
 
-- name: download uptime kuma dist archive to local folder
+- name: Download uptime-kuma dist archive to local folder
   become: false
-  get_url:
+  ansible.builtin.get_url:
     url: "https://github.com/louislam/uptime-kuma/releases/download/{{ uptime_kuma_version }}/dist.tar.gz"
     dest: "/tmp/uptime_kuma_{{ uptime_kuma_version }}_dist.tar.gz"
+    mode: "0644"
   register: _download_dist_archive
   until: _download_dist_archive is succeeded
   retries: 5
   delay: 2
   check_mode: false
 
-- name: unpack uptime kuma dist archive
+- name: Unpack uptime-kuma dist archive
   become: false
   ansible.builtin.unarchive:
     src: "/tmp/uptime_kuma_{{ uptime_kuma_version }}_dist.tar.gz"
@@ -43,9 +45,9 @@
     remote_src: true
   check_mode: false
 
-- name: install npm dependencies
-  become: yes
-  become_user: kuma
+- name: Install NPM dependencies
+  become: true
+  become_user: "{{ uptime_kuma_user }}"
   community.general.npm:
     path: "{{ uptime_kuma_src }}"
     production: true

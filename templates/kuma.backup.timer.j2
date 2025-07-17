@@ -1,0 +1,11 @@
+[Unit]
+Description=Daily Timer for uptime-kuma service
+
+[Timer]
+OnCalendar=*-*-* 02:00:00
+RandomizedDelaySec=2h
+Persistent=true
+Unit=uptime-kuma-backup.service
+
+[Install]
+WantedBy=default.target

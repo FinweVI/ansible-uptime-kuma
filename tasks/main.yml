@@ -1,4 +1,13 @@
 ---
-- ansible.builtin.import_tasks: prerequisites.yml
-- ansible.builtin.import_tasks: install.yml
-- ansible.builtin.import_tasks: service.yml
+- name: Import prerequisites
+  ansible.builtin.import_tasks: prerequisites.yml
+
+- name: Import install
+  ansible.builtin.import_tasks: install.yml
+
+- name: Import service
+  ansible.builtin.import_tasks: service.yml
+
+- name: Import backup
+  ansible.builtin.import_tasks: backup.yml
+  when: uptime_kuma_backup_enabled

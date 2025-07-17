@@ -1,0 +1,8 @@
+[Unit]
+Description=Backup Uptime Kuma
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/kuma.backup.sh
+User={{ uptime_kuma_user }}
+Group={{ uptime_kuma_user }}

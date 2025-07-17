@@ -1,23 +1,22 @@
 ---
-- name: install node-related packages
+- name: Install node-related packages
   ansible.builtin.apt:
     pkg:
-    - nodejs
-    - npm
+      - nodejs
+      - npm
 
-- name: create {{ uptime_kuma_user }} user
+- name: Create user {{ uptime_kuma_user }}
   ansible.builtin.user:
     name: "{{ uptime_kuma_user }}"
     home: "{{ uptime_kuma_home }}"
-    create_home: yes
+    create_home: true
     system: true
     shell: /usr/sbin/nologin
 
-- name: create datadir
+- name: Create datadir
   ansible.builtin.file:
-    path: "{{ uptime_kuma_env_vars.DATA_DIR }}"
+    path: "{{ uptime_kuma_data_dir }}"
     state: directory
     mode: '0755'
     owner: "{{ uptime_kuma_user }}"
     group: "{{ uptime_kuma_user }}"
-  when: "'DATA_DIR' in uptime_kuma_env_vars"

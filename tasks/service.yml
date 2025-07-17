@@ -1,30 +1,15 @@
 ---
-- name: create systemd service unit
-  template:
+- name: Create systemd service unit
+  ansible.builtin.template:
     src: uptime-kuma.service.j2
     dest: /etc/systemd/system/uptime-kuma.service
     owner: root
     group: root
-    mode: 0644
-  notify: restart uptime-kuma
+    mode: '0644'
+  notify: Restart uptime-kuma
 
-- name: generate uptime-kuma config
-  ansible.builtin.lineinfile:
-    path: "{{ uptime_kuma_config_file }}"
-    create: true
-    regexp: '^{{ item.key }}'
-    line: '{{ item.key }}={{ item.value }}'
-    owner: "{{ uptime_kuma_user }}"
-    group: "{{ uptime_kuma_user }}"
-    mode: 0600
-  notify:
-    - restart uptime-kuma
-  loop: "{{ uptime_kuma_env_vars | dict2items }}"
-  loop_control:
-    label: "{{ item.key }}"
-
-- name: "Enable and start uptime-kuma systemd unit"
-  systemd:
+- name: Enable and start uptime-kuma systemd unit
+  ansible.builtin.systemd:
     name: "uptime-kuma"
     enabled: true
     state: started

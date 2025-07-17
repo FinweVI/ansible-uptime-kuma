@@ -5,11 +5,15 @@ uptime_kuma_user: "kuma"
 uptime_kuma_home: "/opt/{{ uptime_kuma_user }}"
 
 uptime_kuma_src: "{{ uptime_kuma_home }}/uptime-kuma-{{ uptime_kuma_version }}"
-uptime_kuma_config_dir: "/etc/uptime-kuma"
-uptime_kuma_config_file: "{{ uptime_kuma_config_dir }}/kuma.conf"
+uptime_kuma_data_dir: "{{ uptime_kuma_home }}/data"
+
+uptime_kuma_backup_enabled: true
+uptime_kuma_backup_dir: "/var/backups/kuma"
+uptime_kuma_backup_retention_days: 7
+uptime_kuma_backup_script: "kuma.backup.sh.j2"
 
 # See: https://github.com/louislam/uptime-kuma/wiki/Environment-Variables
 uptime_kuma_env_vars:
   UPTIME_KUMA_HOST: 127.0.0.1
   UPTIME_KUMA_PORT: 3001
-  DATA_DIR: /opt/kuma/data
+  DATA_DIR: "{{ uptime_kuma_data_dir }}"

@@ -1,0 +1,38 @@
+---
+- name: Create backup dir
+  ansible.builtin.file:
+    path: "{{ uptime_kuma_backup_dir }}"
+    state: directory
+    mode: '0755'
+    owner: "{{ uptime_kuma_user }}"
+    group: "{{ uptime_kuma_user }}"
+
+- name: Deploy uptime-kuma backup script
+  ansible.builtin.template:
+    src: "{{ uptime_kuma_backup_script }}"
+    dest: /usr/local/bin/kuma.backup.sh
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: Deploy uptime-kuma backup systemd unit
+  ansible.builtin.template:
+    src: templates/kuma.backup.service.j2
+    dest: /etc/systemd/system/uptime-kuma-backup.service
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Deploy uptime-kuma backup timer unit
+  ansible.builtin.template:
+    src: templates/kuma.backup.timer.j2
+    dest: /etc/systemd/system/uptime-kuma-backup.timer
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Enable a timer unit for uptime-kuma's backup
+  ansible.builtin.systemd_service:
+    name: uptime-kuma-backup.timer
+    state: started
+    enabled: true
